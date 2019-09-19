@@ -1,1 +1,99 @@
-<p>settings-dialog works!</p>
+<form [formGroup]="formElement" (ngSubmit)="close()">
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <h2 fxFlex mat-dialog-title>Options</h2>
+    <button fxFlexEnd type="submit" mat-icon-button>
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+  <mat-dialog-content class="mat-typography">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-form-field fxFlex>
+        <input matInput placeholder="Name" formControlName="name" />
+      </mat-form-field>
+      <mat-error
+        *ngIf="
+          formElement.controls.name.errors && formElement.controls.name.errors.required
+        "
+      >
+        Please enter a value
+      </mat-error>
+    </div>
+
+    <div formArrayName="options" *ngIf="isOptions()">
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <button
+          type="button"
+          color="primary"
+          mat-raised-button
+          (click)="addPair()"
+        >
+          <mat-icon>add</mat-icon> Add Options
+        </button>
+      </div>
+      <div
+        *ngFor="
+          let element of formElement.get('options').controls;
+          let i = index
+        "
+        [formGroupName]="i"
+      >
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <mat-form-field fxFlex="45%">
+            <input
+              type="text"
+              matInput
+              placeholder="Key"
+              formControlName="key"
+            />
+            <mat-error
+              *ngIf="
+                element.controls.key.errors &&
+                element.controls.key.errors.required
+              "
+            >
+              Please enter a value
+            </mat-error>
+
+            <mat-error
+              *ngIf="
+                element.controls.key.errors &&
+                element.controls.key.errors.keyPattern
+              "
+            >
+              Allowed values:a-zA-Z0-9_
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="45%">
+            <input
+              type="text"
+              matInput
+              placeholder="Value"
+              formControlName="value"
+            />
+            <mat-error
+              *ngIf="
+                element.controls.key.errors &&
+                element.controls.key.errors.required
+              "
+            >
+              Please enter a value
+            </mat-error>
+          </mat-form-field>
+
+          <button
+            fxFlex="10%"
+            type="button"
+            color="warn"
+            mat-icon-button
+            (click)="deletePair(i)"
+          >
+            <mat-icon>clear</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+</form>
+<!-- <mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Close</button>
+</mat-dialog-actions> -->

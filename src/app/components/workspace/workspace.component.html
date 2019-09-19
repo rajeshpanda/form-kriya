@@ -17,15 +17,22 @@
             let element of surveyForm.get('surveyElements').controls;
             let i = index
           "
+          [formGroupName]="i"
         >
-          <!-- <app-title></app-title> -->
-
           <mat-card class="survey-card">
             <mat-card-content>
-              <div fxLayout="row" fxLayoutAlign="end center">
+              <div fxLayout="row" fxLayoutAlign="end start">
                 <button
+                  fxFlexEnd
                   type="button"
-                  fxFlexOffset="90%"
+                  mat-icon-button
+                  (click)="openSettings(f.surveyElements.controls[i])"
+                >
+                  <mat-icon>settings</mat-icon>
+                </button>
+                <button
+                  fxFlexEnd
+                  type="button"
                   color="warn"
                   mat-icon-button
                   (click)="deleteQuestion(i)"
@@ -33,16 +40,20 @@
                   <mat-icon>clear</mat-icon>
                 </button>
               </div>
-              <div [formGroupName]="i">
-                <div fxLayout="row">
-                  <app-text 
-                    *ngIf="f.surveyElements.controls[i].controls.type.value == 'text'"
-                    [formElement]="f.surveyElements.controls[i]"
-                  ></app-text>
+              <div fxLayout="row">
+                <app-text
+                  *ngIf="
+                    f.surveyElements.controls[i].controls.type.value == 'text'
+                  "
+                  [formElement]="f.surveyElements.controls[i]"
+                ></app-text>
 
-                  <app-checkbox *ngIf="f.surveyElements.controls[i].controls.type.value == 'checkbox'"
-                  ></app-checkbox>
-                </div>
+                <app-checkbox
+                  *ngIf="
+                    f.surveyElements.controls[i].controls.type.value ==
+                    'checkbox'
+                  "
+                ></app-checkbox>
               </div>
             </mat-card-content>
           </mat-card>

@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
 import { WorkspaceComponent } from './components/workspace/workspace.component';
 import { ToolboxComponent } from './components/toolbox/toolbox.component';
@@ -31,10 +32,11 @@ import { SettingsDialogComponent } from './components/settings-dialog/settings-d
     BrowserAnimationsModule,
     AppRoutingModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlexLayoutModule
   ],
-  providers: [
-  ],
+  providers: [],
+  entryComponents: [SettingsDialogComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
