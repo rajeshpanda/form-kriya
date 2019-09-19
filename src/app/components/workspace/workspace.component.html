@@ -1,0 +1,53 @@
+<mat-sidenav-container class="example-container">
+  <mat-sidenav class #sidenav mode="side" [(opened)]="opened">
+    <app-toolbox></app-toolbox>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <p><button mat-icon-button (click)="sidenav.toggle()">></button></p>
+    <form [formGroup]="surveyForm">
+      <input
+        matInput
+        placeholder="Enter Title*"
+        formControlName="surveyTitle"
+      />
+      <div formArrayName="surveyElements">
+        <div
+          *ngFor="
+            let element of surveyForm.get('surveyElements').controls;
+            let i = index
+          "
+        >
+          <!-- <app-title></app-title> -->
+
+          <mat-card class="survey-card">
+            <mat-card-content>
+              <div fxLayout="row" fxLayoutAlign="end center">
+                <button
+                  type="button"
+                  fxFlexOffset="90%"
+                  color="warn"
+                  mat-icon-button
+                  (click)="deleteQuestion(i)"
+                >
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </div>
+              <div [formGroupName]="i">
+                <div fxLayout="row">
+                  <app-text 
+                    *ngIf="f.surveyElements.controls[i].controls.type.value == 'text'"
+                    [formElement]="f.surveyElements.controls[i]"
+                  ></app-text>
+
+                  <app-checkbox *ngIf="f.surveyElements.controls[i].controls.type.value == 'checkbox'"
+                  ></app-checkbox>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </form>
+  </mat-sidenav-content>
+</mat-sidenav-container>
