@@ -1,0 +1,18 @@
+<form [formGroup]="formElement">
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <h3 fxFlex>
+      {{ question.question }}
+    </h3>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <section>
+      <div *ngFor="let option of question.options; let i = index">
+        <mat-checkbox
+          (change)="onChange($event)"
+          [value]="option.key"
+          >{{ option.value }}
+        </mat-checkbox>
+      </div>
+    </section>
+  </div>
+</form>

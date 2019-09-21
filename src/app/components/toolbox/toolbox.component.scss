@@ -1,0 +1,21 @@
+// .draggable {
+//     cursor: grab;
+// }
+
+.toobox-heading {
+  position: relative;
+  background-color: var(--primary);
+  color: var(--light);
+}
+
+.tool-list {
+  cursor: pointer;
+}
+
+.tool-list:nth-child(odd) {
+  background-color: var(--primary-light);
+}
+
+.mat-list-base {
+  padding-top: 0px;
+}

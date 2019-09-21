@@ -39,8 +39,7 @@ export class SettingsDialogComponent implements OnInit {
   }
 
   close() {
-    if (this.formElement.status !== 'VALID') {
-    } else {
+    if (this.formElement.status === 'VALID') {
       this.ref.close();
     }
   }

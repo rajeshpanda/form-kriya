@@ -1,32 +1,102 @@
-<mat-sidenav-container class="example-container">
-  <mat-sidenav class #sidenav mode="side" [(opened)]="opened">
-    <app-toolbox></app-toolbox>
+<mat-sidenav-container class="survey-container">
+  <mat-sidenav class #sidenav [mode]="openMode" [(opened)]="opened">
+    <app-toolbox (addTool)="addNewTool($event)"></app-toolbox>
   </mat-sidenav>
 
-  <mat-sidenav-content>
-    <p><button mat-icon-button (click)="sidenav.toggle()">></button></p>
-    <form [formGroup]="surveyForm">
-      <input
-        matInput
-        placeholder="Enter Title*"
-        formControlName="surveyTitle"
-      />
-      <div formArrayName="surveyElements">
+  <mat-sidenav-content fxLayout="row" fxLayoutAlign="center start">
+    <button
+      *ngIf="mobile"
+      class="gavel"
+      mat-icon-button
+      (click)="sidenav.toggle()"
+    >
+      <mat-icon>gavel</mat-icon>
+    </button>
+    <form
+      fxFlex
+      [formGroup]="surveyForm"
+      (ngSubmit)="send()"
+      class="surveyForm"
+    >
+      <div fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="5px">
+        <button
+          type="submit"
+          color="primary"
+          mat-raised-button
+          [disabled]="disableSend()"
+        >
+          Publish<mat-icon>send</mat-icon>
+        </button>
+        <button
+          type="button"
+          color="primary"
+          mat-raised-button
+          [disabled]="disableSend()"
+        >
+          Preview<mat-icon>remove_red_eye </mat-icon>
+        </button>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="center start">
+        <mat-form-field fxFlex="65%">
+          <input
+            matInput
+            placeholder="Survey Title"
+            formControlName="surveyTitle"
+          />
+          <mat-error
+            *ngIf="f.surveyTitle.errors && f.surveyTitle.errors.required"
+          >
+            Please enter a value
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div
+        *ngIf="isEmptyArray()"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        class="empty-div"
+      >
+        <img src="../../../assets/toolicons/add_elements.png" />
+        <h2 fxFlex>
+          Use the toolbox.
+        </h2>
+      </div>
+      <div
+        formArrayName="surveyElements"
+        (cdkDropListDropped)="drop($event)"
+        cdkDropList
+        class="question-list"
+        *ngIf="!isEmptyArray()"
+      >
         <div
+          class="question-box"
           *ngFor="
             let element of surveyForm.get('surveyElements').controls;
             let i = index
           "
           [formGroupName]="i"
+          cdkDrag
+          cdkDragLockAxis="y"
         >
           <mat-card class="survey-card">
             <mat-card-content>
               <div fxLayout="row" fxLayoutAlign="end start">
                 <button
+                  class="resize"
                   fxFlexEnd
                   type="button"
                   mat-icon-button
-                  (click)="openSettings(f.surveyElements.controls[i])"
+                  cdkDragHandle
+                >
+                  <mat-icon>unfold_more</mat-icon>
+                </button>
+                <button
+                  fxFlexEnd
+                  type="button"
+                  mat-icon-button
+                  (click)="openSettings(element)"
                 >
                   <mat-icon>settings</mat-icon>
                 </button>
@@ -42,18 +112,25 @@
               </div>
               <div fxLayout="row">
                 <app-text
-                  *ngIf="
-                    f.surveyElements.controls[i].controls.type.value == 'text'
-                  "
-                  [formElement]="f.surveyElements.controls[i]"
+                  *ngIf="element.controls.type.value == 'text'"
+                  [formElement]="element"
                 ></app-text>
-
                 <app-checkbox
-                  *ngIf="
-                    f.surveyElements.controls[i].controls.type.value ==
-                    'checkbox'
-                  "
+                  *ngIf="element.controls.type.value == 'checkbox'"
+                  [formElement]="element"
                 ></app-checkbox>
+                <app-select
+                  *ngIf="element.controls.type.value == 'select'"
+                  [formElement]="element"
+                ></app-select>
+                <app-radio
+                  *ngIf="element.controls.type.value == 'radio'"
+                  [formElement]="element"
+                ></app-radio>
+                <app-boolean
+                  *ngIf="element.controls.type.value == 'boolean'"
+                  [formElement]="element"
+                ></app-boolean>
               </div>
             </mat-card-content>
           </mat-card>

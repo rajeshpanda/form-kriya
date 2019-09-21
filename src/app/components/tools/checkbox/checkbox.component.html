@@ -1,1 +1,29 @@
-<p>checkbox works!</p>
+<form [formGroup]="formElement">
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Question" formControlName="question" />
+      <mat-error
+        *ngIf="
+          formElement.controls.question.errors &&
+          formElement.controls.question.errors.required
+        "
+      >
+        Please enter a question
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <section formArrayName="options">
+      <div
+        fxLayout="row"
+        *ngFor="
+          let element of formElement.get('options').controls;
+          let i = index
+        "
+        [formGroupName]="i"
+      >
+        <mat-checkbox disabled>{{ element.controls.value.value }}</mat-checkbox>
+      </div>
+    </section>
+  </div>
+</form>

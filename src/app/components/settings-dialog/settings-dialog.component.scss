@@ -1,0 +1,12 @@
+mat-card {
+  margin-bottom: 10px;
+}
+
+.mat-card-list:nth-child(even)>mat-card {
+  background-color: var(--primary-light);
+}
+
+.option-button {
+  margin-bottom: 10px;
+}
+

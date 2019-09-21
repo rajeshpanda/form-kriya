@@ -1,2 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import url('https://fonts.googleapis.com/css?family=Muli');
+@import '~@angular/material/theming';
+
+$formkriya-typography: mat-typography-config(
+  $font-family: 'Muli'
+);
+
+@include angular-material-typography($formkriya-typography);
+body {
+  font-family: 'Muli', sans-serif !important;
+}
+
+:root {
+  --primary: #3f51b5;
+  --primary-light: #eef7ff;
+  --light: #ffffff;
+}
+
+.option-margin {
+  margin-top: 4px;
+}

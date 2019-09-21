@@ -1,1 +1,30 @@
-<p>radio works!</p>
+<form [formGroup]="formElement">
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Question" formControlName="question" />
+      <mat-error
+        *ngIf="
+          formElement.controls.question.errors &&
+          formElement.controls.question.errors.required
+        "
+      >
+        Please enter a question
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start start" formArrayName="options">
+    <mat-radio-group fxLayout="column" disabled>
+      <mat-radio-button
+        *ngFor="
+          let element of formElement.get('options').controls;
+          let i = index
+        "
+        [formGroupName]="i"
+        [value]="element.controls.key.value"
+        class="option-margin"
+      >
+        {{ element.controls.value.value }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+</form>

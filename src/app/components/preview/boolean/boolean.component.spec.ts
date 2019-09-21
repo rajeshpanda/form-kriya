@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TitleComponent } from './title.component';
+import { BooleanComponent } from './boolean.component';
 
-describe('TitleComponent', () => {
-  let component: TitleComponent;
-  let fixture: ComponentFixture<TitleComponent>;
+describe('BooleanComponent', () => {
+  let component: BooleanComponent;
+  let fixture: ComponentFixture<BooleanComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TitleComponent ]
+      declarations: [ BooleanComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TitleComponent);
+    fixture = TestBed.createComponent(BooleanComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

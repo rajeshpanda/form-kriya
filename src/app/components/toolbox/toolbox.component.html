@@ -1,1 +1,12 @@
-<p>toolbox works!</p>
+<div>
+  <div fxLayout="row" fxLayoutAlign="center center" class="toobox-heading"><h4>Toolbox</h4></div>
+  <mat-divider></mat-divider>
+  <mat-list>
+    <mat-list-item *ngFor="let tool of tools" class="tool-list" (dblclick)="add(tool.name)">
+      <mat-icon mat-list-icon [svgIcon]="tool.name"></mat-icon>
+      <h4 mat-line>{{ tool.display }}</h4> &nbsp;&nbsp;&nbsp;
+      <mat-icon (click)="add(tool.name)">add</mat-icon>
+      <mat-divider></mat-divider>
+    </mat-list-item>
+  </mat-list>
+</div>

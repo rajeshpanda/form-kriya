@@ -1,1 +1,6 @@
-<router-outlet></router-outlet>
+<!-- <router-outlet></router-outlet> -->
+
+<app-workspace *ngIf="!survey" (survey)="save($event)"></app-workspace>
+<app-preview-form *ngIf="survey" [survey]="survey">
+
+</app-preview-form>

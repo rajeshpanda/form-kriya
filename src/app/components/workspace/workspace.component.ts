@@ -1,16 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {
   FormGroup,
   FormControl,
   FormArray,
   FormBuilder,
-  AbstractControl,
   Validators
 } from '@angular/forms';
 import { Survey } from 'src/app/models/survey.model';
 import { MatDialog } from '@angular/material/dialog';
 import { SettingsDialogComponent } from '../settings-dialog/settings-dialog.component';
 import { ValidateKey } from 'src/app/services/validators.service';
+import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-workspace',
@@ -20,25 +20,19 @@ import { ValidateKey } from 'src/app/services/validators.service';
 export class WorkspaceComponent implements OnInit {
   opened = true;
   surveyForm: FormGroup;
-
+  mobile = false;
+  openMode = 'side';
   @Input() surveyValue: Survey;
+  @Output() survey = new EventEmitter<string>();
+  optionsBased = ['checkbox', 'select', 'radio'];
   constructor(private fb: FormBuilder, private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.surveyValue = {
-      surveyTitle: 'Okay',
-      surveyElements: [
-        {
-          question: 'haha is the question',
-          type: 'text'
-        },
-        {
-          question: 'haha',
-          type: 'checkbox',
-          options: []
-        }
-      ]
-    };
+    if (window.screen.width < window.screen.height) { // 768px portrait
+      this.mobile = true;
+      this.openMode = 'push';
+      this.opened = false;
+    }
     this.initForm();
   }
 
@@ -48,32 +42,32 @@ export class WorkspaceComponent implements OnInit {
 
   initForm() {
     this.surveyForm = this.fb.group({
-      surveyTitle: new FormControl(''),
+      surveyTitle: new FormControl('', Validators.required),
       surveyElements: new FormArray([])
     });
     this.initSurveyElements();
-    this.surveyForm.patchValue(this.surveyValue);
+    // this.surveyForm.patchValue(this.surveyValue);
   }
 
   initSurveyElements() {
     const se = this.surveyForm.controls.surveyElements as FormArray;
-    this.surveyValue.surveyElements.forEach(element => {
-      if ('options' in element) {
-        const question = this.createToolGroupForMultipleOptionType(
-          element.type
-        );
-        se.push(question);
-      } else {
-        const question = this.createToolGroupForSingleOptionType(element.type);
-        se.push(question);
-      }
-    });
+    if (this.surveyValue) {
+      this.surveyValue.surveyElements.forEach(element => {
+        if ('options' in element) {
+          const question = this.createToolGroupForMultipleOptionType(element.type);
+          se.push(question);
+        } else {
+          const question = this.createToolGroupForSingleOptionType(element.type);
+          se.push(question);
+        }
+      });
+    }
   }
 
   createToolGroupForSingleOptionType(type: string): FormGroup {
     return this.fb.group({
-      name: new FormControl(this.getNewName(type), Validators.required),
-      question: new FormControl('', Validators.required),
+      name: new FormControl(this.getNewName(type), [Validators.required, ValidateKey]),
+      question: new FormControl(`Enter your ${type} question here`, Validators.required),
       type: new FormControl(type, Validators.required)
     });
   }
@@ -84,16 +78,20 @@ export class WorkspaceComponent implements OnInit {
       options.push(this.createOptionsInit(i));
     }
     return this.fb.group({
-      name: new FormControl(this.getNewName(type), Validators.required),
-      question: new FormControl('', Validators.required),
+      name: new FormControl(this.getNewName(type), [Validators.required, ValidateKey]),
+      question: new FormControl(`Enter your ${type} question here`, Validators.required),
       options,
       type: new FormControl(type, Validators.required)
     });
   }
 
   openSettings(formElement: FormGroup) {
+    if (!formElement.controls.question.value) {
+      formElement.controls.question.setValue(`Enter your ${formElement.controls.type.value} question here`);
+    }
     this.dialog.open(SettingsDialogComponent, {
-      width: '50%',
+      width: '90%',
+      maxWidth: '800px',
       disableClose: true,
       data: {
         formElement
@@ -115,5 +113,43 @@ export class WorkspaceComponent implements OnInit {
 
   getNewName(type: string) {
     return `${type}${(this.f.surveyElements as FormArray).length + 1}`;
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    const questions = this.f.surveyElements as FormArray;
+    const selected = questions.at(event.previousIndex);
+    questions.removeAt(event.previousIndex);
+    questions.insert(event.currentIndex, selected);
+  }
+
+  isOptions(type: string) {
+    return this.optionsBased.includes(type);
+  }
+
+  addNewTool(type: string) {
+    const se = this.surveyForm.controls.surveyElements as FormArray;
+    if (this.isOptions(type)) {
+      const question = this.createToolGroupForMultipleOptionType(type);
+      se.push(question);
+    } else {
+      const question = this.createToolGroupForSingleOptionType(type);
+      se.push(question);
+    }
+  }
+
+  isEmptyArray() {
+    return (this.surveyForm.controls.surveyElements as FormArray).length === 0;
+  }
+
+  disableSend(): boolean {
+    return !(this.surveyForm.status === 'VALID' && !this.isEmptyArray());
+  }
+
+  send() {
+    if (this.surveyForm.status === 'VALID' && !this.isEmptyArray()) {
+      this.survey.next(this.surveyForm.value);
+    } else {
+      alert('error occured');
+    }
   }
 }
