@@ -1,7 +1,7 @@
 <form [formGroup]="formElement">
   <div fxLayout="row" fxLayoutAlign="start start">
     <mat-form-field fxFlex>
-      <input matInput placeholder="Question" formControlName="question" />
+      <input matInput placeholder="Question" formControlName="question" (click)="$event.target.select()"/>
       <mat-error
         *ngIf="
           formElement.controls.question.errors &&
@@ -17,7 +17,7 @@
       <div
         fxLayout="row"
         *ngFor="
-          let element of formElement.get('options').controls;
+          let element of formElement.get('options')['controls'];
           let i = index
         "
         [formGroupName]="i"

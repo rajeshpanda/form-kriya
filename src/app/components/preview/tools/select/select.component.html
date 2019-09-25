@@ -1,0 +1,20 @@
+<form [formGroup]="formElement">
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <h3 fxFlex>
+      {{ question.question }}
+    </h3>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <mat-label>Options</mat-label>
+      <mat-select formControlName="reply">
+        <mat-option
+          *ngFor="let option of question.options"
+          [value]="option.key"
+        >
+          {{ option.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</form>

@@ -15,10 +15,10 @@ import {
 export class PreviewFormComponent implements OnInit {
   @Input() survey: any;
   responseForm: FormGroup;
+  result: any;
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
-    console.log(this.survey);
     this.initForm();
   }
 
@@ -27,6 +27,7 @@ export class PreviewFormComponent implements OnInit {
   }
 
   initForm() {
+    this.result = undefined;
     this.responseForm = this.fb.group({
       responses: new FormArray([])
     });
@@ -52,7 +53,18 @@ export class PreviewFormComponent implements OnInit {
   createResponseForCheckbox(element: any) {
     return this.fb.group({
       name: new FormControl(element.name),
-      reply: new FormGroup({})
+      reply: new FormArray([])
+    });
+  }
+
+  submit() {
+    this.result = {};
+    const replies = this.responseForm.value;
+    console.log(1, replies);
+    replies.responses.forEach(element => {
+      if (element.reply && (!Array.isArray(element.reply) || element.reply.length > 0)) {
+        this.result[element.name] = element.reply;
+      }
     });
   }
 }

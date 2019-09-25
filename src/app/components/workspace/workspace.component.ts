@@ -19,10 +19,9 @@ import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
 })
 export class WorkspaceComponent implements OnInit {
   opened = true;
-  surveyForm: FormGroup;
+  @Input() surveyForm: FormGroup;
   mobile = false;
   openMode = 'side';
-  @Input() surveyValue: Survey;
   @Output() survey = new EventEmitter<string>();
   optionsBased = ['checkbox', 'select', 'radio'];
   constructor(private fb: FormBuilder, private dialog: MatDialog) {}
@@ -33,35 +32,10 @@ export class WorkspaceComponent implements OnInit {
       this.openMode = 'push';
       this.opened = false;
     }
-    this.initForm();
   }
 
   get f() {
     return this.surveyForm.controls;
-  }
-
-  initForm() {
-    this.surveyForm = this.fb.group({
-      surveyTitle: new FormControl('', Validators.required),
-      surveyElements: new FormArray([])
-    });
-    this.initSurveyElements();
-    // this.surveyForm.patchValue(this.surveyValue);
-  }
-
-  initSurveyElements() {
-    const se = this.surveyForm.controls.surveyElements as FormArray;
-    if (this.surveyValue) {
-      this.surveyValue.surveyElements.forEach(element => {
-        if ('options' in element) {
-          const question = this.createToolGroupForMultipleOptionType(element.type);
-          se.push(question);
-        } else {
-          const question = this.createToolGroupForSingleOptionType(element.type);
-          se.push(question);
-        }
-      });
-    }
   }
 
   createToolGroupForSingleOptionType(type: string): FormGroup {
@@ -85,6 +59,18 @@ export class WorkspaceComponent implements OnInit {
     });
   }
 
+  createOptionsInit(i: number) {
+    return this.fb.group({
+      key: ['option' + i, [Validators.required, ValidateKey]],
+      value: ['Option ' + i, [Validators.required]]
+    });
+  }
+
+  getNewName(type: string) {
+    return `${type}${(this.f.surveyElements as FormArray).length + 1}`;
+  }
+
+
   openSettings(formElement: FormGroup) {
     if (!formElement.controls.question.value) {
       formElement.controls.question.setValue(`Enter your ${formElement.controls.type.value} question here`);
@@ -102,17 +88,6 @@ export class WorkspaceComponent implements OnInit {
   deleteQuestion(i: number) {
     const questions = this.f.surveyElements as FormArray;
     questions.removeAt(i);
-  }
-
-  createOptionsInit(i: number) {
-    return this.fb.group({
-      key: ['option' + i, [Validators.required, ValidateKey]],
-      value: ['Option ' + i, [Validators.required]]
-    });
-  }
-
-  getNewName(type: string) {
-    return `${type}${(this.f.surveyElements as FormArray).length + 1}`;
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -145,11 +120,7 @@ export class WorkspaceComponent implements OnInit {
     return !(this.surveyForm.status === 'VALID' && !this.isEmptyArray());
   }
 
-  send() {
-    if (this.surveyForm.status === 'VALID' && !this.isEmptyArray()) {
-      this.survey.next(this.surveyForm.value);
-    } else {
-      alert('error occured');
-    }
+  save() {
+    // save
   }
 }

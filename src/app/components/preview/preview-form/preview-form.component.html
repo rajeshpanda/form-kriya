@@ -1,0 +1,74 @@
+<div class="previewer">
+  <div fxLayout="row" fxLayoutAlign="center start">
+    <form
+      fxFlex
+      [formGroup]="responseForm"
+      (ngSubmit)="submit()"
+      class="responseForm"
+    >
+      <div class="preview-title" fxLayout="row" fxLayoutAlign="center start">
+        <h2 fxFlex="65%">{{ survey.surveyTitle }}</h2>
+      </div>
+      <div formArrayName="responses">
+        <div
+          class="question-box"
+          *ngFor="
+            let element of responseForm.get('responses')['controls'];
+            let i = index
+          "
+          [formGroupName]="i"
+        >
+          <mat-card class="survey-card">
+            <mat-card-content>
+              <div fxLayout="row">
+                <app-preview-text
+                  *ngIf="survey.surveyElements[i].type == 'text'"
+                  [formElement]="element"
+                  [question]="survey.surveyElements[i]"
+                ></app-preview-text>
+                <app-preview-checkbox
+                  *ngIf="survey.surveyElements[i].type == 'checkbox'"
+                  [formElement]="element"
+                  [question]="survey.surveyElements[i]"
+                ></app-preview-checkbox>
+                <app-preview-select
+                  *ngIf="survey.surveyElements[i].type == 'select'"
+                  [formElement]="element"
+                  [question]="survey.surveyElements[i]"
+                ></app-preview-select>
+
+                <app-preview-radio
+                  *ngIf="survey.surveyElements[i].type == 'radio'"
+                  [formElement]="element"
+                  [question]="survey.surveyElements[i]"
+                ></app-preview-radio>
+                <app-preview-boolean
+                  *ngIf="survey.surveyElements[i].type == 'boolean'"
+                  [formElement]="element"
+                  [question]="survey.surveyElements[i]"
+                ></app-preview-boolean>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="center start">
+        <button
+          class="submit-button"
+          type="submit"
+          color="primary"
+          mat-raised-button
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="result" fxLayout="row" fxLayoutAlign="center start">
+    <div fxFlex class="responseForm">
+      <h3>Result:</h3>
+      <pre>{{ result | json }}</pre>
+    </div>
+  </div>
+</div>
