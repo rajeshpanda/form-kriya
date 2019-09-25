@@ -46,6 +46,20 @@ export class WorkspaceComponent implements OnInit {
     });
   }
 
+  createToolGroupForSliderType(type: string): FormGroup {
+    return this.fb.group({
+      name: new FormControl(this.getNewName(type), [Validators.required, ValidateKey]),
+      question: new FormControl(`Enter your ${type} question here`, Validators.required),
+      type: new FormControl(type, Validators.required),
+      max: new FormControl('5', Validators.required),
+      min: new FormControl('0', Validators.required),
+      step: new FormControl('0.5', Validators.required),
+      thumbLabel: new FormControl(true),
+      inverted: new FormControl(false),
+      maxmin: new FormControl(true)
+    });
+  }
+
   createToolGroupForMultipleOptionType(type: string): FormGroup {
     const options = new FormArray([]);
     for (let i = 1; i <= 3; i++) {
@@ -105,6 +119,9 @@ export class WorkspaceComponent implements OnInit {
     const se = this.surveyForm.controls.surveyElements as FormArray;
     if (this.isOptions(type)) {
       const question = this.createToolGroupForMultipleOptionType(type);
+      se.push(question);
+    } else if (type === 'slider') {
+      const question = this.createToolGroupForSliderType(type);
       se.push(question);
     } else {
       const question = this.createToolGroupForSingleOptionType(type);

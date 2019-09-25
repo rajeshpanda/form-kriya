@@ -36,7 +36,6 @@
                   [formElement]="element"
                   [question]="survey.surveyElements[i]"
                 ></app-preview-select>
-
                 <app-preview-radio
                   *ngIf="survey.surveyElements[i].type == 'radio'"
                   [formElement]="element"
@@ -47,6 +46,11 @@
                   [formElement]="element"
                   [question]="survey.surveyElements[i]"
                 ></app-preview-boolean>
+                <app-preview-slider
+                  *ngIf="survey.surveyElements[i].type == 'slider'"
+                  [formElement]="element"
+                  [question]="survey.surveyElements[i]"
+                ></app-preview-slider>
               </div>
             </mat-card-content>
           </mat-card>

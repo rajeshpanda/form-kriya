@@ -34,6 +34,11 @@ export class AppComponent {
       `checkbox`,
       this.domSanitizer.bypassSecurityTrustResourceUrl(`../assets/toolicons/checkbox.svg`)
     );
+
+    this.matIconRegistry.addSvgIcon(
+      `slider`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl(`../assets/toolicons/slider.svg`)
+    );
   }
 
   save(value) {

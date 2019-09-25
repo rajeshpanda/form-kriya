@@ -27,6 +27,70 @@
         </mat-error>
       </mat-form-field>
     </div>
+    <div *ngIf="formElement.controls.type.value == 'slider'" class="marginb10">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <mat-form-field fxFlex>
+          <input
+            type="number"
+            matInput
+            placeholder="Min"
+            formControlName="min"
+          />
+          <mat-error
+            *ngIf="
+              formElement.controls.min.errors &&
+              formElement.controls.min.errors.required
+            "
+          >
+            Please enter a value
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <input
+            type="number"
+            matInput
+            placeholder="Max"
+            formControlName="max"
+          />
+          <mat-error
+            *ngIf="
+              formElement.controls.max.errors &&
+              formElement.controls.max.errors.required
+            "
+          >
+            Please enter a value
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <input
+            type="number"
+            matInput
+            placeholder="Step Size"
+            formControlName="step"
+          />
+          <mat-error
+            *ngIf="
+              formElement.controls.step.errors &&
+              formElement.controls.step.errors.required
+            "
+          >
+            Please enter a value
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <section fxFlex>
+              <mat-checkbox formControlName="thumbLabel">Show Thumblabel</mat-checkbox>
+          </section>
+          <section fxFlex>
+            <mat-checkbox formControlName="maxmin">Show Max/Min</mat-checkbox>
+          </section>
+          <section fxFlex>
+              <mat-checkbox formControlName="inverted">Show Inverted</mat-checkbox>
+          </section>
+        </div>
+    </div>
 
     <div formArrayName="options" *ngIf="isOptions()">
       <div fxLayout="row" fxLayoutAlign="end center">
@@ -49,7 +113,7 @@
         [formGroupName]="i"
         class="mat-card-list"
       >
-        <mat-card>
+        <mat-card class="marginb10">
           <mat-card-content>
             <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
               <mat-form-field fxFlex="45%">

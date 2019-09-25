@@ -22,8 +22,10 @@ import { PreviewSelectComponent } from './components/preview/tools/select/select
 import { PreviewRadioComponent } from './components/preview/tools/radio/radio.component';
 import { PreviewCheckboxComponent } from './components/preview/tools/checkbox/checkbox.component';
 import { PreviewBooleanComponent } from './components/preview/tools/boolean/boolean.component';
+import { PreviewSliderComponent } from './components/preview/tools/slider/slider.component';
 import { BuilderComponent } from './components/builder/builder.component';
 import { JsonComponent } from './components/json/json.component';
+import { SliderComponent } from './components/tools/slider/slider.component';
 
 @NgModule({
   declarations: [
@@ -36,12 +38,14 @@ import { JsonComponent } from './components/json/json.component';
     RadioComponent,
     SettingsDialogComponent,
     BooleanComponent,
+    SliderComponent,
     PreviewFormComponent,
     PreviewTextComponent,
     PreviewSelectComponent,
     PreviewRadioComponent,
     PreviewCheckboxComponent,
     PreviewBooleanComponent,
+    PreviewSliderComponent,
     BuilderComponent,
     JsonComponent
   ],

@@ -123,6 +123,10 @@
                   *ngIf="element.controls.type.value == 'boolean'"
                   [formElement]="element"
                 ></app-boolean>
+                <app-slider
+                  *ngIf="element.controls.type.value == 'slider'"
+                  [formElement]="element"
+                ></app-slider>
               </div>
             </mat-card-content>
           </mat-card>
