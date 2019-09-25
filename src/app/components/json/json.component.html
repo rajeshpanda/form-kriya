@@ -1,0 +1,19 @@
+<div class="previewer">
+  <div fxLayout="row" fxLayoutAlign="center start" class="form-kriya-editor">
+      <ace-editor
+        [(text)]="code"
+        mode="json"
+        style="height:70vh;"
+      ></ace-editor>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center start">
+    <button
+      class="submit-button"
+      color="primary"
+      mat-raised-button
+      (click)="apply()"
+    >
+      Apply
+    </button>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+app-preview-text,
+app-preview-checkbox,
+app-preview-select,
+app-preview-boolean,
+app-preview-radio {
+  width: 100%;
+}
+
+.previewer {
+  height: -webkit-calc(100vh - 49px);
+}
+
+.preview-title {
+  text-align: center;
+}
+
+.question-box:nth-child(odd) > mat-card {
+  background-color: var(--primary-light);
+}
+
+mat-card {
+  margin: 5px 5px 3px 5px;
+}
+
+.submit-button {
+  margin-top: 25px;
+}
+
+.responseForm {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  max-width: 800px;
+  border: dashed black 1px;
+  padding: 15px;
+}

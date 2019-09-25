@@ -15,10 +15,10 @@
     <form
       fxFlex
       [formGroup]="surveyForm"
-      (ngSubmit)="send()"
+      (ngSubmit)="save()"
       class="surveyForm"
     >
-      <div fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="5px">
+      <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="5px">
         <button
           type="submit"
           color="primary"
@@ -26,14 +26,6 @@
           [disabled]="disableSend()"
         >
           Publish<mat-icon>send</mat-icon>
-        </button>
-        <button
-          type="button"
-          color="primary"
-          mat-raised-button
-          [disabled]="disableSend()"
-        >
-          Preview<mat-icon>remove_red_eye </mat-icon>
         </button>
       </div>
 
@@ -73,7 +65,7 @@
         <div
           class="question-box"
           *ngFor="
-            let element of surveyForm.get('surveyElements').controls;
+            let element of surveyForm.get('surveyElements')['controls'];
             let i = index
           "
           [formGroupName]="i"

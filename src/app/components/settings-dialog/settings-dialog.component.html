@@ -43,7 +43,7 @@
 
       <div
         *ngFor="
-          let element of formElement.get('options').controls;
+          let element of formElement.get('options')['controls'];
           let i = index
         "
         [formGroupName]="i"

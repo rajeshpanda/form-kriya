@@ -6,7 +6,7 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="start start">
     <section>
-      <div *ngFor="let option of question.options; let i = index">
+      <div *ngFor="let option of question.options">
         <mat-checkbox
           (change)="onChange($event)"
           [value]="option.key"

@@ -18,6 +18,6 @@ export class ToolboxComponent {
   constructor() { }
 
   add(tool: string) {
-    this.addTool.next(tool);
+    this.addTool.emit(tool);
   }
 }
