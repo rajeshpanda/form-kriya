@@ -12,7 +12,8 @@ export class ToolboxComponent {
     {name: 'checkbox', display: 'Checkbox'},
     {name: 'select', display: 'Dropdown'},
     {name: 'radio', display: 'Radio'},
-    {name: 'boolean', display: 'Toggle'}
+    {name: 'boolean', display: 'Toggle'},
+    { name: 'slider', display: 'Slider'}
   ];
 
   constructor() { }

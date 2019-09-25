@@ -1,0 +1,23 @@
+<form [formGroup]="formElement">
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <h3 fxFlex>
+      {{ question.question }}
+    </h3>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <span *ngIf="question.maxmin && !question.inverted" class="text-small">{{ question.min }}</span>
+    <span *ngIf="question.maxmin && question.inverted" class="text-small">{{ question.max }}</span>
+    <mat-slider
+      fxFlex
+      formControlName="reply"
+      [max]="question.max"
+      [min]="question.min"
+      [step]="question.step"
+      [thumbLabel]="question.thumbLabel"
+      [invert]="question.inverted"
+    >
+    </mat-slider>
+    <span *ngIf="question.maxmin && !question.inverted" class="text-small">{{ question.max }}</span>
+    <span *ngIf="question.maxmin && question.inverted" class="text-small">{{ question.min }}</span>
+  </div>
+</form>

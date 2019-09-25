@@ -1,0 +1,60 @@
+<form [formGroup]="formElement">
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <input
+        matInput
+        placeholder="Question"
+        formControlName="question"
+        (click)="$event.target.select()"
+      />
+      <mat-error
+        *ngIf="
+          formElement.controls.question.errors &&
+          formElement.controls.question.errors.required
+        "
+      >
+        Please enter a question
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <span
+      *ngIf="
+        formElement.get('maxmin').value && !formElement.get('inverted').value
+      "
+      class="text-small"
+      >{{ formElement.get('min').value }}</span
+    >
+    <span
+      *ngIf="
+        formElement.get('maxmin').value && formElement.get('inverted').value
+      "
+      class="text-small"
+      >{{ formElement.get('max').value }}</span
+    >
+    <mat-slider
+      fxFlex
+      disabled
+      [max]="formElement.get('max').value"
+      [min]="formElement.get('min').value"
+      [step]="formElement.get('step').value"
+      [thumbLabel]="formElement.get('thumbLabel').value"
+      [invert]="formElement.get('inverted').value"
+    >
+    </mat-slider>
+    <span
+      *ngIf="
+        formElement.get('maxmin').value && !formElement.get('inverted').value
+      "
+      class="text-small"
+      >{{ formElement.get('max').value }}</span
+    >
+    <span
+      *ngIf="
+        formElement.get('maxmin').value && formElement.get('inverted').value
+      "
+      class="text-small"
+      >{{ formElement.get('min').value }}</span
+    >
+  </div>
+</form>

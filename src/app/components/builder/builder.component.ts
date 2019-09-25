@@ -52,6 +52,9 @@ export class BuilderComponent implements OnInit {
             element.type, element.options.length
           );
           se.push(question);
+        } else if (element.type === 'slider') {
+          const question = this.createToolGroupForSliderType(element.type);
+          se.push(question);
         } else {
           const question = this.createToolGroupForSingleOptionType(
             element.type
@@ -60,6 +63,20 @@ export class BuilderComponent implements OnInit {
         }
       });
     }
+  }
+
+  createToolGroupForSliderType(type: string): FormGroup {
+    return this.fb.group({
+      name: new FormControl(this.getNewName(type), [Validators.required, ValidateKey]),
+      question: new FormControl(`Enter your ${type} question here`, Validators.required),
+      type: new FormControl(type, Validators.required),
+      max: new FormControl('5', Validators.required),
+      min: new FormControl('0', Validators.required),
+      step: new FormControl('0.5', Validators.required),
+      thumbLabel: new FormControl(true),
+      inverted: new FormControl(false),
+      maxmin: new FormControl(true)
+    });
   }
 
   createToolGroupForSingleOptionType(type: string): FormGroup {
