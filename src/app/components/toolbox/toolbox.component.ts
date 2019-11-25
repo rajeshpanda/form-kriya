@@ -13,7 +13,7 @@ export class ToolboxComponent {
     {name: 'select', display: 'Dropdown'},
     {name: 'radio', display: 'Radio'},
     {name: 'boolean', display: 'Toggle'},
-    { name: 'slider', display: 'Slider'}
+    {name: 'slider', display: 'Slider'}
   ];
 
   constructor() { }

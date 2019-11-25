@@ -1,9 +1,9 @@
-<mat-tab-group (selectedTabChange)="onTabChanged($event)" [selectedIndex]="1">
-  <mat-tab disabled>
+<mat-tab-group (selectedTabChange)="onTabChanged($event)">
+  <!-- <mat-tab disabled>
     <ng-template mat-tab-label>
       <img style="height: 85px;" src="../../../assets/unmashed.jpeg">
     </ng-template>
-  </mat-tab>
+  </mat-tab> -->
   <mat-tab label="Builder">
     <app-workspace
       [surveyForm]="surveyForm"

@@ -128,11 +128,11 @@ export class BuilderComponent implements OnInit {
   }
 
   onTabChanged(event: MatTabChangeEvent) {
-    if (event.index === 1) {
+    if (event.index === 0) {
       // this.workspace.ngOnInit();
-    } else if (event.index === 2) {
+    } else if (event.index === 1) {
       this.jsonEditor.init();
-    } else if (event.index === 3) {
+    } else if (event.index === 2) {
       this.preview.initForm();
     }
   }
